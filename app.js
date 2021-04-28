@@ -26,8 +26,8 @@ $(function(){
     function reloadApp(ruta){
         $.post('jsondir.php', {ruta}, (response) => {
             if(!response.error){
-                //let arcDir = JSON.parse(response);
-                console.log('hola soy el backend ' + response)
+                let arcDir = JSON.parse(response);
+                console.log(arcDir)
             }
         })
     }

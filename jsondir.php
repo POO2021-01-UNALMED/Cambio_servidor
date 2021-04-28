@@ -13,15 +13,23 @@ function listar($ruta){
     #Se distingue si es u archivo o directorio para posteriormente almacenarlo en el
     #arreglo
     foreach($lista as $elemento){
+        $propietario = shell_exec("stat -c %U controladores/$ruta/$elemento");
+        $permisos = shell_exec("stat -c %a controladores/$ruta/$elemento");
+
         if(is_file("$ruta/$elemento")){
-            $listaConTipo[$elemento]='archivo';
+            $listaConTipo[]=array(
+                'name' => $elemento,
+                'tipo' => 'carpeta',
+                'propietario' => $propietario,
+                'permiso' => $permisos     
+            );
         }
         elseif(is_dir("$ruta/$elemento")){
             $listaConTipo[$elemento]='carpeta';
         }
         $propietario = shell_exec("stat -c %U controladores/$ruta/$elemento");
         $permisos = shell_exec("stat -c %a controladores/$ruta/$elemento");
-        
+
         $listaConTipo[] = array(
             'propietario' => $propietario,
             'permisos'  => $permisos,
