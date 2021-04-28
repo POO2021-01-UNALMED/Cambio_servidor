@@ -1,6 +1,7 @@
 $(function(){
      //Inicializá el tablero
     var ruta = $('#rutaID').text()
+    $('#ruta').attr('value',ruta)
     //console.log(ruta)
     reloadApp(ruta)
 
