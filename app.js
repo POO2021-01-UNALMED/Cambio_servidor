@@ -23,17 +23,17 @@ $(function(){
     })
    
     //Se extrae los documentos
-    function reloadApp(ruta){
+    function reloadApp(ruta='raiz'){
         $.post('jsondir.php', {ruta}, (response) => {
             if(!response.error){
                 let arcDir = JSON.parse(response);
                 console.log('Extración de archivos fue un éxito');
                 let template = ''
                 arcDir.forEach(elem =>{
-                    template += ` <tr nombreID="${elem.name}"> 
+                    template += ` <tr nombreID="${elem.name} tipoID=${$elem.tipo}"> 
                                         <td>${elem.name}</td>
                                         <td>${elem.propietario}</td>
-                                        <td>${elem.permisos}</td>
+                                        <td>${elem.permiso}</td>
                                         <td>${elem.tipo}</td>
                                         <td>
                                             <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
@@ -54,14 +54,17 @@ $(function(){
         if(confirm('¿Estas seguro que quieres eliminarlo?')){
             let element = $(this)[0].activeElement.parentElement.parentElement;
             const nombre = $(element).attr('nombreID');
+            const tipo = $(element).attr('tipoID');
             var ruta = $('#rutaID').text();
             let postData ={
                 elemento:nombre,
-                ruta:ruta
+                ruta:ruta,
+                tipo: tipo,
             }
             $.post('eliminar.php', postData,(response)=>{
                 if(!response.error){
                     console.log(response)
+                    location.reload()
                 }
             })
         }
