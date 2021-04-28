@@ -24,10 +24,9 @@ $(function(){
    
     //Se extrae los documentos
     function reloadApp(ruta){
-        $.post('jssondir.php', {ruta}, (response) => {
+        $.post('jsondir.php', {ruta}, (response) => {
             if(!response.error){
                 let arcDir = JSON.parse(response);
-                let template = '';
                 console.log(arcDir)
             }
         })
