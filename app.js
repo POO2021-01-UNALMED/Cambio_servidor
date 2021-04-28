@@ -84,18 +84,24 @@ $(function(){
 
         $('#formEditId').submit(e => {
             e.preventDefault();
-            const postData = {
-                nuevo_nombre : $('#NuevoNombre').val(),
-                nombre_viejo : nombre,
-                ruta : ruta,
-                tipo: 'Cambiar_Nombre'
-            };
-            console.log(ruta,nombre, $('#NuevoNombre').val())
-            $('#formEditId').trigger('reset');
-            $.post('cambiar.php', postData, (response)=>{
+            let nuevo_nombre = $('#NuevoNombre').val();
+            if(nuevo_nombre=!null){
+                const postData = {
+                    nuevo_nombre : nuevo_nombre,
+                    nombre_viejo : nombre,
+                    ruta : ruta,
+                    tipo: 'Cambiar_Nombre'
+                };
+
+                console.log(ruta,nombre, $('#NuevoNombre').val())
                 $('#formEditId').trigger('reset');
-                location.reload();
-            })
+                $.post('cambiar.php', postData, (response)=>{
+                    $('#formEditId').trigger('reset');
+                    console.log('response')
+                    location.reload();
+                })
+            }
+            
         })
         
     })
