@@ -59,7 +59,7 @@ $(function(){
 
             console.log(nombre, tipo);
             var ruta = $('#rutaID').text();
-             /*let postData ={
+             let postData ={
                 elemento:nombre,
                 ruta:ruta,
                 tipo: tipo,
@@ -70,7 +70,7 @@ $(function(){
                     location.reload()
                 }
             })
-            */
+            
         }
     })
     
@@ -79,7 +79,7 @@ $(function(){
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID');
         ruta = $('#rutaID').text();
-        console.log(ruta,nombre);
+
         $('#modalEdit').modal('toggle');
 
         $('#formEditId').submit(e => {
@@ -90,10 +90,11 @@ $(function(){
                 ruta : ruta,
                 tipo: 'Cambiar_Nombre'
             };
+            console.log(ruta,nombre, $('#NuevoNombre').val())
+            $('#formEditId').trigger('reset');
             $.post('cambiar.php', postData, (response)=>{
                 $('#formEditId').trigger('reset');
-                console.log(response)
-                reloadApp();
+                location.reload();
             })
         })
         
