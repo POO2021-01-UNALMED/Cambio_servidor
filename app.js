@@ -2,7 +2,7 @@ $(function(){
      //Inicializá el tablero
     var ruta = $('#rutaID').text()
     $('#ruta').attr('value',ruta)
-    //console.log(ruta)
+    console.log(ruta)
     reloadApp(ruta)
 
     //Se crean los documentos
@@ -26,8 +26,8 @@ $(function(){
     function reloadApp(ruta){
         $.post('jsondir.php', {ruta}, (response) => {
             if(!response.error){
-                let arcDir = JSON.parse(response);
-                console.log(arcDir)
+                //let arcDir = JSON.parse(response);
+                console.log('hola soy el backend ' + response)
             }
         })
     }

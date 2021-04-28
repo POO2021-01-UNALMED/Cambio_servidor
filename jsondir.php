@@ -28,5 +28,6 @@ function listar($ruta){
     
 }
 $ruta = $_POST['ruta'];
-listar($ruta)
+echo $_POST['ruta'];
+#listar($ruta)
 ?>
