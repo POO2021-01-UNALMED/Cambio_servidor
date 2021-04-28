@@ -20,10 +20,13 @@ function listar($ruta){
         }
     }
 
-    return $listaConTipo;
+    $jsonstring = json_encode($listaConTipo);
+    echo $jsonstring;
     #if(is_file("$ruta/$lista[0]")){
     #    return $lista;
     #}
     
 }
+$ruta = $_POST['ruta'];
+listar($ruta)
 ?>
