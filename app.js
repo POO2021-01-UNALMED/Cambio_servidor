@@ -30,11 +30,11 @@ $(function(){
                 console.log('Extración de archivos fue un éxito');
                 let template = ''
                 arcDir.forEach(elem =>{
-                    template += ` <tr nombreID="${elem.name}"> 
+                    template += ` <tr nombreID="${elem.name+"/"+elem.tipo}"> 
                                         <td>${elem.name}</td>
                                         <td>${elem.propietario}</td>
                                         <td>${elem.permiso}</td>
-                                        <td id="idCellTipo">${elem.tipo}</td>
+                                        <td>${elem.tipo}</td>
                                         <td>
                                             <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
                                             <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
@@ -53,12 +53,13 @@ $(function(){
     $(document).on('click', '.elem-delete', (e)=>{
         if(confirm('¿Estas seguro que quieres eliminarlo?')){
             let element = $(this)[0].activeElement.parentElement.parentElement;
-            const nombre = $(element).attr('nombreID');
-            const tipo = $(element).$('idCellTipo').val()
-            console.log(nombre, tipo)
-            
+            const value = $(element).attr('nombreID').split('/');
+            const nombre = value[0]
+            const tipo = value[1]
+
+            console.log(nombre, tipo);
             var ruta = $('#rutaID').text();
-            let postData ={
+             /*let postData ={
                 elemento:nombre,
                 ruta:ruta,
                 tipo: tipo,
@@ -69,6 +70,7 @@ $(function(){
                     location.reload()
                 }
             })
+            */
         }
     })
     
