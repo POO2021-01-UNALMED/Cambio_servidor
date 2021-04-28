@@ -19,22 +19,19 @@ function listar($ruta){
         if(is_file("$ruta/$elemento")){
             $listaConTipo[]=array(
                 'name' => $elemento,
-                'tipo' => 'carpeta',
+                'tipo' => 'archivo',
                 'propietario' => $propietario,
                 'permiso' => $permisos     
             );
         }
         elseif(is_dir("$ruta/$elemento")){
-            $listaConTipo[$elemento]='carpeta';
+            $listaConTipo[]=array(
+                'name' => $elemento,
+                'tipo' => 'carpeta',
+                'propietario' => $propietario,
+                'permiso' => $permisos     
+            );
         }
-        $propietario = shell_exec("stat -c %U controladores/$ruta/$elemento");
-        $permisos = shell_exec("stat -c %a controladores/$ruta/$elemento");
-
-        $listaConTipo[] = array(
-            'propietario' => $propietario,
-            'permisos'  => $permisos,
-        );
-        
 
     }
 
