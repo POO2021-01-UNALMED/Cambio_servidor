@@ -3,6 +3,7 @@
 #ejecuta el comando ls de linux y lo convierte en lista
 function listar($ruta){
     $listaLinux = shell_exec("ls ".$ruta);
+    echo $listaLinux;
     $lista=preg_split('/[\r\n]+/',$listaLinux);
     unset($lista[count($lista)-1]);
 
@@ -18,6 +19,15 @@ function listar($ruta){
         elseif(is_dir("$ruta/$elemento")){
             $listaConTipo[$elemento]='carpeta';
         }
+        $propietario = shell_exec("stat -c %U controladores/$ruta/$elemento");
+        $permisos = shell_exec("stat -c %a controladores/$ruta/$elemento");
+        
+        $listaConTipo[] = array(
+            'propietario' => $propietario,
+            'permisos'  => $permisos,
+        );
+        
+
     }
 
     $jsonstring = json_encode($listaConTipo);
@@ -28,6 +38,5 @@ function listar($ruta){
     
 }
 $ruta = $_POST['ruta'];
-echo $_POST['ruta'];
-#listar($ruta)
+listar($ruta)
 ?>
