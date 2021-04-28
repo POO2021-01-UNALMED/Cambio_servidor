@@ -27,7 +27,24 @@ $(function(){
         $.post('jsondir.php', {ruta}, (response) => {
             if(!response.error){
                 let arcDir = JSON.parse(response);
-                console.log(arcDir)
+                console.log('Extración de archivos fue un éxito');
+                let template = ''
+                arcDir.forEach(elem =>{
+                    template += ` <tr nombreID="${elem.name}"> 
+                                        <td>${elem.name}</td>
+                                        <td>${elem.propietario}</td>
+                                        <td>${elem.permisos}</td>
+                                        <td>${elem.tipo}</td>
+                                        <td>
+                                            <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
+                                            <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
+                                            <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
+                                            <button class="elem-info btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
+                                            <input class="seleccionar ml-4" type="checkbox" name="checkbox" id="checkbox"/>
+                                        </td>          
+                                    </tr>`
+                });
+                $('#idRenderElem').html(template)
             }
         })
     }

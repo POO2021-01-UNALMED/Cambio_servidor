@@ -3,7 +3,6 @@
 #ejecuta el comando ls de linux y lo convierte en lista
 function listar($ruta){
     $listaLinux = shell_exec("ls ".$ruta);
-    echo $listaLinux;
     $lista=preg_split('/[\r\n]+/',$listaLinux);
     unset($lista[count($lista)-1]);
 
@@ -13,8 +12,8 @@ function listar($ruta){
     #Se distingue si es u archivo o directorio para posteriormente almacenarlo en el
     #arreglo
     foreach($lista as $elemento){
-        $propietario = shell_exec("stat -c %U controladores/$ruta/$elemento");
-        $permisos = shell_exec("stat -c %a controladores/$ruta/$elemento");
+        $propietario = shell_exec("stat -c %U $ruta/$elemento");
+        $permisos = shell_exec("stat -c %a $ruta/$elemento");
 
         if(is_file("$ruta/$elemento")){
             $listaConTipo[]=array(
