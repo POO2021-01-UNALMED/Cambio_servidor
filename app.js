@@ -77,7 +77,7 @@ $(function(){
     //Cambio de nombre al elemento, tiene un problema
     $(document).on('click', '.elem-edit', (e)=>{
         let element = $(this)[0].activeElement.parentElement.parentElement;
-        const nombre = $(element).attr('nombreID');
+        const nombre = $(element).attr('nombreID').slipt('/')[0];
         ruta = $('#rutaID').text();
 
         $('#modalEdit').modal('toggle');
