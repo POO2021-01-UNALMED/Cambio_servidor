@@ -30,6 +30,6 @@ elseif($tipo == 'Cambiar_permiso'){
     cambiarPermisos($ruta,$viejo,$nuevo);
 }
 elseif($tipo == 'Cambiar_Propietario'){
-    cambiarPropietario($ruta, $viejo, $ruta);
+    cambiarPropietario($ruta, $viejo, $nuevo);
 }
 ?>

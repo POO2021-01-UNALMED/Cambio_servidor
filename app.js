@@ -98,9 +98,8 @@ $(function(){
                 tipo: 'Cambiar_Propietario'
             };
             $.post('cambiar.php', postData, (response)=>{
+                console.log(response)
                 $('#form-change-prop').trigger('reset');
-                let message = `Perro hay un error de servidor. EL Danier ${response}`;
-                $('#message').html(message)
                 $('#modalChangeProp').modal('toggle');
                 reloadApp(ruta)
             })
