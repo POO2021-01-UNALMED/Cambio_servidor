@@ -1,5 +1,6 @@
 $(function(){
      //Inicializá el tablero
+    
     var ruta = $('#rutaID').text()
     $('#ruta').attr('value',ruta)
     console.log(ruta)
@@ -73,11 +74,47 @@ $(function(){
             
         }
     })
-    
-    //Cambio de nombre al elemento, tiene un problema
+
+     //Cambiar permisos
+     $(document).on('click', '.elem-perm', (e)=>{
+
+        console.log('Entré')
+        let element = $(this)[0].activeElement.parentElement.parentElement;
+        const nombre = $(element).attr('nombreID').split('/')[0];
+         //se estrae el nombre del id
+        ruta = $('#rutaID').text();
+      
+        $('#modalChangePer').modal('toggle');
+
+        $('#form-change-per').submit(e => {
+            e.preventDefault();
+            let perPropietario = $('#NumPropietario').val();
+            let perGrupo = $('#NumGrupo').val();
+            let perOtros = $('#NumOtros').val();
+            let nuevo_persimo = `${perPropietario}${perGrupo}${perOtros}`
+
+            console.log(nuevo_persimo)
+            if(parseInt(nuevo_persimo.length) === 3){
+                const postData = {
+                    nuevo_permiso : nuevo_persimo,
+                    nombre_viejo : nombre,
+                    ruta : ruta,
+                    tipo: 'Cambiar_permiso'
+                };
+
+                $.post('cambiar.php', postData, (response)=>{
+                    $('#form-change-per').trigger('reset');
+                    console.log(response)
+                })
+            }
+            
+        })
+    })
+
+    //Cambio de nombre al elemento
     $(document).on('click', '.elem-edit', (e)=>{
         let element = $(this)[0].activeElement.parentElement.parentElement;
-        const nombre = $(element).attr('nombreID').slipt('/')[0];
+        const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
         ruta = $('#rutaID').text();
 
         $('#modalEdit').modal('toggle');
@@ -85,7 +122,8 @@ $(function(){
         $('#formEditId').submit(e => {
             e.preventDefault();
             let nuevo_nombre = $('#NuevoNombre').val();
-            if(nuevo_nombre=!null){
+            console.log(nuevo_nombre.length)
+            if(parseInt(nuevo_nombre.length) !== 0){
                 const postData = {
                     nuevo_nombre : nuevo_nombre,
                     nombre_viejo : nombre,
@@ -97,14 +135,63 @@ $(function(){
                 $('#formEditId').trigger('reset');
                 $.post('cambiar.php', postData, (response)=>{
                     $('#formEditId').trigger('reset');
-                    console.log('response')
-                    location.reload();
+                    console.log(response)
+                    location.reload()
+                   ;
                 })
             }
             
         })
-        
     })
-    
+
+    //Cambio de nombre al elemento
+    $(document).on('click', '.elem-user', (e)=>{
+        let element = $(this)[0].activeElement.parentElement.parentElement;
+        const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
+        ruta = $('#rutaID').text();
+
+        $('#modalChangeProp').modal('toggle');
+
+        $('#form-change-prop').submit(e => {
+            e.preventDefault();
+            let nuevo_propietario = $('#change-user').val();
+            console.log(nuevo_propietario)
+            const postData = {
+                nuevo_propietario : nuevo_propietario,
+                nombre_viejo : nombre,
+                ruta : ruta,
+                tipo: 'Cambiar_Propietario'
+            };
+            $.post('cambiar.php', postData, (response)=>{
+                $('#form-change-prop').trigger('reset');
+                console.log(response)
+                //location.reload()
+            ;
+            })
+        })
+    }) 
+
+    $(':checkbox').change(function() {
+        var Stack =[]
+        var tamplate = ''
+        $(':checkbox:checked').each(function() {
+            let element = $(this)
+            let name = element.attr('name')
+            let ruta = element.attr('id')
+
+            tamplate+= ` <tr>
+                            <td>${name}</td>
+                            <td>${ruta}</td>
+                            <td>
+                                <select class="custom-select">
+                                    <option value="copiar">copiar</option>
+                                    <option value="pegar">cortar</option>
+                                </select>
+                            </td>
+                        </tr>`;
+           
+        });
+        $('#StackTable').html(tamplate)
+    });
     
 })
