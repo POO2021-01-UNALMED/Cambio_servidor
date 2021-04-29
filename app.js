@@ -165,7 +165,7 @@ $(function(){
             $.post('cambiar.php', postData, (response)=>{
                 $('#form-change-prop').trigger('reset');
                 console.log(response)
-                //location.reload()
+                location.reload()
             ;
             })
         })

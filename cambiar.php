@@ -12,6 +12,7 @@ function cambiarPropietario($ruta,$nombreDocumento,$nuevoPropietario){
 #Función para cambiar los permisos
 function cambiarPermisos($ruta,$nombreDocumento,$nuevosPermisos){
     shell_exec("sudo chmod $nuevosPermisos $ruta/$nombreDocumento");
+    echo "Se cambiado los permisos";
 }
 
 $nuevo = $_POST['nuevo_nombre'];
