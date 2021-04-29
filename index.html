@@ -16,6 +16,7 @@
     <div class="container p-4">
         <div class="row">
             <div class="col-md-4">
+                <div id="message"></div>
                 <div class="card">
                     <div class="card-body">
                         <h5>Ingresé archivo ó carpeta</h5>
@@ -67,8 +68,33 @@
                             </td>
                         </tr>
                     </thead>
-                        <tbody id="idRenderElem">
-                           
+                        <tbody>
+                            <tr nombreID="carpeta"> 
+                                <td>Carpera</td>
+                                <td>Diego</td>
+                                <td>777</td>
+                                <td>Carpeta</td>
+                                <td>
+                                    <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="elem-edit btn btn-success" title="editar"><i class="far fa-edit"></i></button>
+                                    <button class="elem-perm btn btn-info" title="permisos"><i class="far fa-user"></i></button>
+                                    <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
+                                    <input class="ml-4" type="checkbox" name="carpeta" id="raiz"/>
+                                </td>          
+                            </tr>
+                            <tr nombreID="llanta">
+                                <td>llanta</td>
+                                <td>juan</td>
+                                <td>7767</td>
+                                <td>archivo</td>
+                                <td>
+                                    <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="elem-edit btn btn-success" title="editar"><i class="far fa-edit"></i></button>
+                                    <button class="elem-perm btn btn-info" title="permisos"><i class="far fa-user"></i></button>
+                                    <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
+                                    <input class="ml-4" type="checkbox" name="llanta" id="raiz/user"/>
+                                </td>          
+                            </tr>
                         </tbody>
                 </table>
                 <form>
@@ -96,7 +122,11 @@
                         </tr>
                     </thead>
                     <tbody id="StackTable">
-                       
+                        <tr>
+                            <td>Carpeta</td>
+                            <td>raiz/hola</td>
+                            <td>copiar</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -138,7 +168,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form id="formPermisis">
+            <form id="form-change-per">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                     </div>
@@ -207,8 +237,8 @@
                             <select class="custom-select" id="change-user">
                                 <option value="Fredy">Fredy</option>
                                 <option value="Jose">Jose</option>
-                                <option value="El Danier">El Danier</option>
-                                <option value="Juan Pablo">Juan Pablo</option>
+                                <option value="Danier">Danier</option>
+                                <option value="Juan">Juan</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-warning">Aceptar</button>

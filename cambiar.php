@@ -7,6 +7,7 @@ function cambiarNombre($viejo,$nuevo,$ruta){
 #Funcion para cambiar los propietarios
 function cambiarPropietario($ruta,$nombreDocumento,$nuevoPropietario){
     shell_exec("sudo chown $nuevoPropietario $ruta/$nombreDocumento");
+    echo 'Se ha cambiado de usario';
 }
 
 #Función para cambiar los permisos
@@ -15,19 +16,18 @@ function cambiarPermisos($ruta,$nombreDocumento,$nuevosPermisos){
     echo "Se cambiado los permisos";
 }
 
-$nuevo = $_POST['nuevo_nombre'];
-$viejo = $_POST['nombre_viejo'];
+$nuevo = $_POST['nuevo'];
+$viejo = $_POST['nombre'];
 $ruta = $_POST['ruta'];
 $tipo = $_POST['tipo'];
-$nuevo_permiso = $_POST['nuevo_permiso'];
-$nuevo_propetario = $_POST['nuevo_propietario'];
+
 
 
 if($tipo == 'Cambiar_Nombre'){
     cambiarNombre($viejo,$nuevo, $ruta);
 }
 elseif($tipo == 'Cambiar_permiso'){
-    cambiarPermisos($ruta,$viejo,$nuevo_permiso);
+    cambiarPermisos($ruta,$viejo,$nuevo);
 }
 elseif($tipo == 'Cambiar_Propietario'){
     cambiarPropietario($ruta, $viejo, $ruta);
