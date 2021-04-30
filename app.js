@@ -1,13 +1,17 @@
+var ruta = 'raiz';
+var Stack = [];
+
 $(function(){
      //Inicializá el tablero
     
-    var ruta = $('#rutaID').text()
-    $('#ruta').attr('value',ruta)
-    console.log(ruta)
-    reloadApp(ruta)
+     $('#ruta').attr('value',ruta)
+     console.log(ruta)
+     reloadApp(ruta)
 
-    //Se crean los documentos
-    $('#crearArchivos').submit(e => {
+
+
+     //Se crean los documentos
+     $('#crearArchivos').submit(e => {
         ruta = $('#rutaID').text()
         e.preventDefault();
         const postData = {
@@ -22,7 +26,8 @@ $(function(){
             
         })
     })
-   
+
+
     //Se extrae los documentos
     function reloadApp(ruta='raiz'){
         $.post('jsondir.php', {ruta}, (response) => {
@@ -31,19 +36,21 @@ $(function(){
                 console.log('Extración de archivos fue un éxito');
                 let template = ''
                 arcDir.forEach(elem =>{
+                  
+                    let tipe_element = elem.tipo === 'carpeta' ? `<a id="OpenCarpeta" href="#" class="elem-next">${elem.name}</a>`:`${elem.name}`
                     template += ` <tr nombreID="${elem.name+"/"+elem.tipo}"> 
-                                        <td>${elem.name}</td>
-                                        <td>${elem.propietario}</td>
-                                        <td>${elem.permiso}</td>
-                                        <td>${elem.tipo}</td>
-                                        <td>
-                                            <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
-                                            <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
-                                            <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
-                                            <button class="elem-info btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
-                                            <input class="seleccionar ml-4" type="checkbox" name="checkbox" id="checkbox"/>
-                                        </td>          
-                                    </tr>`
+                    <td>${tipe_element}</td>
+                    <td>${elem.propietario}</td>
+                    <td>${elem.permiso}</td>
+                    <td>${elem.tipo}</td>
+                    <td>
+                        <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
+                        <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
+                        <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
+                        <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
+                        <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
+                    </td>          
+                </tr>`;
                 });
                 $('#idRenderElem').html(template)
             }
@@ -68,15 +75,44 @@ $(function(){
             $.post('eliminar.php', postData,(response)=>{
                 if(!response.error){
                     console.log(response)
-                    location.reload()
+                    reloadApp(ruta)
                 }
             })
             
         }
     })
 
-     //Cambiar permisos
-     $(document).on('click', '.elem-perm', (e)=>{
+    //Estos van cambiar.php
+    //Cambio de nombre del usuario
+    $(document).on('click', '.elem-user', (e)=>{
+        let element = $(this)[0].activeElement.parentElement.parentElement;
+        const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
+        ruta = $('#rutaID').text();
+
+        $('#modalChangeProp').modal('toggle');
+
+        $('#form-change-prop').submit(e => {
+            e.preventDefault();
+            let nuevo_propietario = $('#change-user').val();
+            console.log(nuevo_propietario)
+            const postData = {
+                nuevo : nuevo_propietario,
+                nombre : nombre,
+                ruta : ruta,
+                tipo: 'Cambiar_Propietario'
+            };
+            $.post('cambiar.php', postData, (response)=>{
+                console.log(response)
+                $('#form-change-prop').trigger('reset');
+                
+            })
+            
+        })
+    }) 
+
+
+    //Cambiar permisos
+    $(document).on('click', '.elem-perm', (e)=>{
 
         console.log('Entré')
         let element = $(this)[0].activeElement.parentElement.parentElement;
@@ -96,8 +132,8 @@ $(function(){
             console.log(nuevo_persimo)
             if(parseInt(nuevo_persimo.length) === 3){
                 const postData = {
-                    nuevo_permiso : nuevo_persimo,
-                    nombre_viejo : nombre,
+                    nuevo : nuevo_persimo,
+                    nombre : nombre,
                     ruta : ruta,
                     tipo: 'Cambiar_permiso'
                 };
@@ -105,17 +141,20 @@ $(function(){
                 $.post('cambiar.php', postData, (response)=>{
                     $('#form-change-per').trigger('reset');
                     console.log(response)
+                   reloadApp(ruta)
                 })
             }
             
         })
     })
 
+
     //Cambio de nombre al elemento
     $(document).on('click', '.elem-edit', (e)=>{
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
         ruta = $('#rutaID').text();
+
 
         $('#modalEdit').modal('toggle');
 
@@ -125,8 +164,8 @@ $(function(){
             console.log(nuevo_nombre.length)
             if(parseInt(nuevo_nombre.length) !== 0){
                 const postData = {
-                    nuevo_nombre : nuevo_nombre,
-                    nombre_viejo : nombre,
+                    nuevo : nuevo_nombre,
+                    nombre : nombre,
                     ruta : ruta,
                     tipo: 'Cambiar_Nombre'
                 };
@@ -135,8 +174,9 @@ $(function(){
                 $('#formEditId').trigger('reset');
                 $.post('cambiar.php', postData, (response)=>{
                     $('#formEditId').trigger('reset');
+                    $('#modalEdit').modal('toggle');
                     console.log(response)
-                    location.reload()
+                    reloadApp(ruta)
                    ;
                 })
             }
@@ -144,35 +184,22 @@ $(function(){
         })
     })
 
-    //Cambio de nombre al elemento
-    $(document).on('click', '.elem-user', (e)=>{
+    //abrir carpeta 
+    $(document).on('click', '.elem-next',(e)=>{ 
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
         ruta = $('#rutaID').text();
+        ruta = `${ruta}/${nombre}`
 
-        $('#modalChangeProp').modal('toggle');
+        $('#rutaID').text(`${ruta}/${nombre}`)
+        $('#ruta').attr('value',`${ruta}/${nombre}`)
+        
+        reloadApp(ruta)
+    })
 
-        $('#form-change-prop').submit(e => {
-            e.preventDefault();
-            let nuevo_propietario = $('#change-user').val();
-            console.log(nuevo_propietario)
-            const postData = {
-                nuevo_propietario : nuevo_propietario,
-                nombre_viejo : nombre,
-                ruta : ruta,
-                tipo: 'Cambiar_Propietario'
-            };
-            $.post('cambiar.php', postData, (response)=>{
-                $('#form-change-prop').trigger('reset');
-                console.log(response)
-                location.reload()
-            ;
-            })
-        })
-    }) 
-
+    //Agregar a la pila
     $(':checkbox').change(function() {
-        var Stack =[]
+        
         var tamplate = ''
         $(':checkbox:checked').each(function() {
             let element = $(this)
@@ -193,5 +220,4 @@ $(function(){
         });
         $('#StackTable').html(tamplate)
     });
-    
 })
