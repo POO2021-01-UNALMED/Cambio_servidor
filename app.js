@@ -36,7 +36,8 @@ $(function(){
                 let template = ''
                 arcDir.forEach(elem =>{
                   
-                    let tipe_element = elem.tipo === 'carpeta' ? `<p class="elem-next>${elem.name}</p>`:`${elem.name}`
+                    let tipe_element = elem.tipo === 'carpeta' ? `<a id="OpenCarpeta" href="#" class="elem-next>${elem.name}</a>`:`${elem.name}`
+                    console.log(tipe_element)
                     template += ` <tr nombreID="${elem.name+"/"+elem.tipo}"> 
                     <td>${tipe_element}</td>
                     <td>${elem.propietario}</td>
@@ -184,7 +185,7 @@ $(function(){
     })
 
     //abrir carpeta 
-    $(document).on('click', '.elem-next', (e)=> {
+    $('#OpenCarpeta').click((e)=> {
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
         ruta = $('#rutaID').text();
