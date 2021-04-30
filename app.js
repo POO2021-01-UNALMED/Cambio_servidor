@@ -104,6 +104,8 @@ $(function(){
             $.post('cambiar.php', postData, (response)=>{
                 console.log(response)
                 $('#form-change-prop').trigger('reset');
+                $('#modalChangeProp').modal('toggle');
+                location.reload();
                 
             })
             
@@ -188,11 +190,11 @@ $(function(){
     $(document).on('click', '.elem-next',(e)=>{ 
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
-        ruta = $('#rutaID').text();
-        ruta = `${ruta}/${nombre}`
+        ruta = $('#rutaID').text(); //raiz
+        ruta = `${ruta}/${nombre}` //raiz/gafas
 
-        $('#rutaID').text(`${ruta}/${nombre}`)
-        $('#ruta').attr('value',`${ruta}/${nombre}`)
+        $('#rutaID').text(`${ruta}`)//raiz/gafas/g
+        $('#ruta').attr('value',`${ruta}`)
         
         reloadApp(ruta)
     })
