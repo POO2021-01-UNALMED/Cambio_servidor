@@ -1,7 +1,8 @@
+var ruta = 'raiz';
+var Stack = [];
 $(function(){
      //Inicializá el tablero
-     
-     var ruta = $('#rutaID').text()
+    
      $('#ruta').attr('value',ruta)
      console.log(ruta)
      reloadApp(ruta)
@@ -44,7 +45,7 @@ $(function(){
                                             <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
                                             <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
                                             <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
-                                            <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${elem.ruta}""/>
+                                            <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
                                         </td>          
                                     </tr>`
                 });
@@ -100,8 +101,7 @@ $(function(){
             $.post('cambiar.php', postData, (response)=>{
                 console.log(response)
                 $('#form-change-prop').trigger('reset');
-                $('#modalChangeProp').modal('toggle');
-                reloadApp(ruta)
+                
             })
             
         })
@@ -171,8 +171,6 @@ $(function(){
                 $.post('cambiar.php', postData, (response)=>{
                     $('#formEditId').trigger('reset');
                     $('#modalEdit').modal('toggle');
-                    let message = `Perro hay un error de servidor. EL Danier ${response}`;
-                    $('#message').html(message)
                     console.log(response)
                     reloadApp(ruta)
                    ;
@@ -184,7 +182,7 @@ $(function(){
 
     //Agregar a la pila
     $(':checkbox').change(function() {
-        var Stack =[]
+        
         var tamplate = ''
         $(':checkbox:checked').each(function() {
             let element = $(this)
