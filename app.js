@@ -35,22 +35,21 @@ $(function(){
                 console.log('Extración de archivos fue un éxito');
                 let template = ''
                 arcDir.forEach(elem =>{
-                    if(elem.tipo === 'carpeta'){
-                        template += ` <tr nombreID="${elem.name+"/"+elem.tipo}"> 
-                        <td><a class="elem-next" href="#">${elem.name}</a></td>
-                        <td>${elem.propietario}</td>
-                        <td>${elem.permiso}</td>
-                        <td>${elem.tipo}</td>
-                        <td>
-                            <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
-                            <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
-                            <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
-                            <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
-                            <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
-                        </td>          
-                    </tr>`
-                    }
-                   
+                  
+                    let tipe_element = elem.tipo === 'carpeta' ? `<p class="elem-next>${elem.name}</p>`:`${elem.name}`
+                    template += ` <tr nombreID="${elem.name+"/"+elem.tipo}"> 
+                    <td>${tipe_element}</td>
+                    <td>${elem.propietario}</td>
+                    <td>${elem.permiso}</td>
+                    <td>${elem.tipo}</td>
+                    <td>
+                        <button class="elem-delete btn btn-danger" title="eliminar"><i class="fas fa-trash-alt"></i></button>
+                        <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
+                        <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
+                        <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
+                        <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
+                    </td>          
+                </tr>`;
                 });
                 $('#idRenderElem').html(template)
             }
@@ -185,7 +184,7 @@ $(function(){
     })
 
     //abrir carpeta 
-    $(document).on('click', '.elem-next'){
+    $(document).on('click', '.elem-next', (e)=> {
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
         ruta = $('#rutaID').text();
@@ -195,7 +194,7 @@ $(function(){
         $('#ruta').attr('value',`${ruta}/${nombre}`)
         
         reloadApp(ruta)
-    }
+    })
 
     //Agregar a la pila
     $(':checkbox').change(function() {
