@@ -1,9 +1,9 @@
-var ruta = 'raiz';
 var Stack = [];
+let ruta =  'raiz'; 
 
 $(function(){
      //Inicializá el tablero
-     //ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
+     
      $('#ruta').attr('value',ruta)
      $('#rutaID').text(ruta)
 
@@ -50,7 +50,7 @@ $(function(){
                         <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
                         <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
                         <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
-                        <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
+                        <input class="ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
                     </td>          
                 </tr>`;
                 });
@@ -105,9 +105,11 @@ $(function(){
             };
             $.post('cambiar.php', postData, (response)=>{
                 console.log(response)
+                console.log(response)
                 $('#form-change-prop').trigger('reset');
                 $('#modalChangeProp').modal('toggle');
-                location.reload();
+                location.reload()
+                
                 
             })
             
@@ -131,9 +133,10 @@ $(function(){
             let perPropietario = $('#NumPropietario').val();
             let perGrupo = $('#NumGrupo').val();
             let perOtros = $('#NumOtros').val();
+            console.log(perPropietario, per)
             let nuevo_persimo = `${perPropietario}${perGrupo}${perOtros}`
 
-            console.log(nuevo_persimo)
+    
             if(parseInt(nuevo_persimo.length) === 3){
                 const postData = {
                     nuevo : nuevo_persimo,
@@ -146,7 +149,7 @@ $(function(){
                     $('#form-change-per').trigger('reset');
                     $('#modalChangePer').modal('toggle');
                     console.log(response)
-                   reloadApp(ruta)
+                    location.reload()
                 })
             }
             
@@ -181,7 +184,7 @@ $(function(){
                     $('#formEditId').trigger('reset');
                     $('#modalEdit').modal('toggle');
                     console.log(response)
-                    reloadApp(ruta)
+                    location.reload()
                    ;
                 })
             }
@@ -205,23 +208,22 @@ $(function(){
 
     //volver
     $('#volver').click((e)=>{
-        ruta = $('#rutaID').text().split('/');
-        console.log(ruta.length, ruta)
-        if(ruta.length>1){
-            ruta = ruta.pop().join('/');
-            //localStorage.setItem('ruta', ruta);
+        ruta = $('#rutaID').text();
+        if(ruta === 'raiz'){
             $('#rutaID').text(`${ruta}`);
             $('#ruta').attr('value',`${ruta}`);
-            reloadApp(ruta)
+            reloadApp(ruta)  
         }else{
+            ruta =  $('#rutaID').text().split("/")
+            ruta.pop()
+            ruta = ruta.join('/')
+            console.log(ruta)
             //localStorage.setItem('ruta', ruta);
             $('#rutaID').text(`${ruta}`);
             $('#ruta').attr('value',`${ruta}`);
             reloadApp(ruta)
-               
         }
        
-
     })
 
     //Agregar a la pila
@@ -229,6 +231,7 @@ $(function(){
         
         var tamplate = ''
         $(':checkbox:checked').each(function() {
+            console.log('entré al checkbox')
             let element = $(this)
             let name = element.attr('name')
             let ruta = element.attr('id')
