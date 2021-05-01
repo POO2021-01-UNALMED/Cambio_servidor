@@ -1,8 +1,9 @@
 var Stack = [];
 
+
 $(function(){
      //Inicializá el tablero
-     ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
+     let ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'raiz'; 
      $('#ruta').attr('value',ruta)
      $('#rutaID').text(ruta)
 
@@ -49,7 +50,7 @@ $(function(){
                         <button class="elem-edit btn btn-success" title="editar" type="submit"><i class="far fa-edit"></i></button>
                         <button class="elem-perm btn btn-info" title="permisos" type="submit"><i class="far fa-user"></i></button>
                         <button class="elem-user btn btn-warning" title="informacion" type="submit"><i class="fas fa-question-circle"></i></button>
-                        <input class="seleccionar ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
+                        <input class="ml-4" type="checkbox" name="${elem.name}" id="${ruta}""/>
                     </td>          
                 </tr>`;
                 });
@@ -146,7 +147,8 @@ $(function(){
                     $('#form-change-per').trigger('reset');
                     $('#modalChangePer').modal('toggle');
                     console.log(response)
-                   reloadApp(ruta)
+                    localStorage.setItem('ruta', ruta);
+                   location.reload()
                 })
             }
             
@@ -207,6 +209,7 @@ $(function(){
     //volver
     $('#volver').click((e)=>{
         ruta = $('#rutaID').text().split('/');
+        console.log(ruta)
         if(ruta.length>1){
             ruta.pop()
             ruta = ruta.join('/')
