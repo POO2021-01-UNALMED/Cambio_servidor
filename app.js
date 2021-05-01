@@ -1,9 +1,8 @@
-var ruta = 'raiz';
 var Stack = [];
 
 $(function(){
      //Inicializá el tablero
-     //ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
+     ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
      $('#ruta').attr('value',ruta)
      $('#rutaID').text(ruta)
 
@@ -105,9 +104,10 @@ $(function(){
             };
             $.post('cambiar.php', postData, (response)=>{
                 console.log(response)
+                console.log(response)
                 $('#form-change-prop').trigger('reset');
                 $('#modalChangeProp').modal('toggle');
-                location.reload();
+                
                 
             })
             
@@ -181,7 +181,8 @@ $(function(){
                     $('#formEditId').trigger('reset');
                     $('#modalEdit').modal('toggle');
                     console.log(response)
-                    reloadApp(ruta)
+                    localStorage.setItem('ruta', ruta);
+                    location.reload()
                    ;
                 })
             }
@@ -206,9 +207,10 @@ $(function(){
     //volver
     $('#volver').click((e)=>{
         ruta = $('#rutaID').text().split('/');
-        console.log(ruta.length, ruta)
         if(ruta.length>1){
-            ruta = ruta.pop().join('/');
+            ruta.pop()
+            ruta = ruta.join('/')
+            console.log(ruta)
             //localStorage.setItem('ruta', ruta);
             $('#rutaID').text(`${ruta}`);
             $('#ruta').attr('value',`${ruta}`);
@@ -217,11 +219,8 @@ $(function(){
             //localStorage.setItem('ruta', ruta);
             $('#rutaID').text(`${ruta}`);
             $('#ruta').attr('value',`${ruta}`);
-            reloadApp(ruta)
-               
+            reloadApp(ruta)    
         }
-       
-
     })
 
     //Agregar a la pila
