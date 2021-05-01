@@ -3,8 +3,10 @@ var Stack = [];
 
 $(function(){
      //Inicializá el tablero
-    
+     //ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
      $('#ruta').attr('value',ruta)
+     $('#rutaID').text(ruta)
+
      console.log(ruta)
      reloadApp(ruta)
 
@@ -104,6 +106,8 @@ $(function(){
             $.post('cambiar.php', postData, (response)=>{
                 console.log(response)
                 $('#form-change-prop').trigger('reset');
+                $('#modalChangeProp').modal('toggle');
+                location.reload();
                 
             })
             
@@ -140,6 +144,7 @@ $(function(){
 
                 $.post('cambiar.php', postData, (response)=>{
                     $('#form-change-per').trigger('reset');
+                    $('#modalChangePer').modal('toggle');
                     console.log(response)
                    reloadApp(ruta)
                 })
@@ -188,13 +193,35 @@ $(function(){
     $(document).on('click', '.elem-next',(e)=>{ 
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
-        ruta = $('#rutaID').text();
-        ruta = `${ruta}/${nombre}`
-
-        $('#rutaID').text(`${ruta}/${nombre}`)
-        $('#ruta').attr('value',`${ruta}/${nombre}`)
+        ruta = $('#rutaID').text(); 
+        ruta = `${ruta}/${nombre}` ;
+        //localStorage.setItem('ruta', ruta);
+        $('#rutaID').text(`${ruta}`);
+        $('#ruta').attr('value',`${ruta}`);
         
         reloadApp(ruta)
+    })
+
+
+    //volver
+    $('#volver').click((e)=>{
+        ruta = $('#rutaID').text().split('/');
+        console.log(ruta.length, ruta)
+        if(ruta.length>1){
+            ruta = ruta.pop().join('/');
+            //localStorage.setItem('ruta', ruta);
+            $('#rutaID').text(`${ruta}`);
+            $('#ruta').attr('value',`${ruta}`);
+            reloadApp(ruta)
+        }else{
+            //localStorage.setItem('ruta', ruta);
+            $('#rutaID').text(`${ruta}`);
+            $('#ruta').attr('value',`${ruta}`);
+            reloadApp(ruta)
+               
+        }
+       
+
     })
 
     //Agregar a la pila

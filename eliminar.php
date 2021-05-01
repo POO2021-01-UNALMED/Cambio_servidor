@@ -1,11 +1,11 @@
 <?php  
     function eliminarArchivo($archivo,$ruta){
-        shell_exec("rm $ruta/$archivo");
+        shell_exec("sudo rm $ruta/$archivo");
         echo 'Archivo eliminado';
     }
 
     function eliminarDirectorio($directorio,$ruta){
-        shell_exec("rm -R $ruta/$directorio");
+        shell_exec("sudo rm -R $ruta/$directorio");
         echo 'Directorio eliminado';
     }
 
