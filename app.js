@@ -5,6 +5,8 @@ $(function(){
      //Inicializá el tablero
      var ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
      $('#ruta').attr('value',ruta)
+     $('#rutaID').text(ruta)
+
      console.log(ruta)
      reloadApp(ruta)
 
@@ -204,8 +206,13 @@ $(function(){
     //volver
     $('volver').click((e)=>{
         ruta = $('#rutaID').text(); 
-        var all_carpetas = ruta.slipt('/').pop().join('/');
-        console(all_carpetas)         
+         ruta = ruta.slipt('/').pop().join('/');
+        localStorage.setItem('ruta', ruta);
+        $('#rutaID').text(`${ruta}`);
+        $('#ruta').attr('value',`${ruta}`);
+        reloadApp(ruta)
+           
+
     })
 
     //Agregar a la pila
