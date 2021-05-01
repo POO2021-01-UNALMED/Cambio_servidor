@@ -3,7 +3,7 @@ var Stack = [];
 
 $(function(){
      //Inicializá el tablero
-     var ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
+     //ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
      $('#ruta').attr('value',ruta)
      $('#rutaID').text(ruta)
 
@@ -195,7 +195,7 @@ $(function(){
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
         ruta = $('#rutaID').text(); 
         ruta = `${ruta}/${nombre}` ;
-        localStorage.setItem('ruta', ruta);
+        //localStorage.setItem('ruta', ruta);
         $('#rutaID').text(`${ruta}`);
         $('#ruta').attr('value',`${ruta}`);
         
@@ -204,10 +204,10 @@ $(function(){
 
 
     //volver
-    $('volver').click((e)=>{
+    $('#volver').click((e)=>{
         ruta = $('#rutaID').text(); 
          ruta = ruta.slipt('/').pop().join('/');
-        localStorage.setItem('ruta', ruta);
+        //localStorage.setItem('ruta', ruta);
         $('#rutaID').text(`${ruta}`);
         $('#ruta').attr('value',`${ruta}`);
         reloadApp(ruta)
