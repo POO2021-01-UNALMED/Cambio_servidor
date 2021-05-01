@@ -3,7 +3,7 @@ var Stack = [];
 
 $(function(){
      //Inicializá el tablero
-     let ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'raiz'; 
+     let ruta =  'raiz'; 
      $('#ruta').attr('value',ruta)
      $('#rutaID').text(ruta)
 
@@ -147,7 +147,6 @@ $(function(){
                     $('#form-change-per').trigger('reset');
                     $('#modalChangePer').modal('toggle');
                     console.log(response)
-                    localStorage.setItem('ruta', ruta);
                    location.reload()
                 })
             }
@@ -183,7 +182,6 @@ $(function(){
                     $('#formEditId').trigger('reset');
                     $('#modalEdit').modal('toggle');
                     console.log(response)
-                    localStorage.setItem('ruta', ruta);
                     location.reload()
                    ;
                 })
