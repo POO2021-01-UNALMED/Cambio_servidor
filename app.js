@@ -3,7 +3,7 @@ var Stack = [];
 
 $(function(){
      //Inicializá el tablero
-    
+     var ruta = localStorage.getItem('ruta')? localStorage.getItem('ruta'): 'ruta'; 
      $('#ruta').attr('value',ruta)
      console.log(ruta)
      reloadApp(ruta)
@@ -142,6 +142,7 @@ $(function(){
 
                 $.post('cambiar.php', postData, (response)=>{
                     $('#form-change-per').trigger('reset');
+                    $('#modalChangePer').modal('toggle');
                     console.log(response)
                    reloadApp(ruta)
                 })
@@ -190,13 +191,21 @@ $(function(){
     $(document).on('click', '.elem-next',(e)=>{ 
         let element = $(this)[0].activeElement.parentElement.parentElement;
         const nombre = $(element).attr('nombreID').split('/')[0]; //se estrae el nombre del id
-        ruta = $('#rutaID').text(); //raiz
-        ruta = `${ruta}/${nombre}` //raiz/gafas
-
-        $('#rutaID').text(`${ruta}`)//raiz/gafas/g
-        $('#ruta').attr('value',`${ruta}`)
+        ruta = $('#rutaID').text(); 
+        ruta = `${ruta}/${nombre}` ;
+        localStorage.setItem('ruta', ruta);
+        $('#rutaID').text(`${ruta}`);
+        $('#ruta').attr('value',`${ruta}`);
         
         reloadApp(ruta)
+    })
+
+
+    //volver
+    $('volver').click((e)=>{
+        ruta = $('#rutaID').text(); 
+        var all_carpetas = ruta.slipt('/').pop().join('/');
+        console(all_carpetas)         
     })
 
     //Agregar a la pila
