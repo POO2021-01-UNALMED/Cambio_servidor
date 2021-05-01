@@ -1,9 +1,9 @@
 var Stack = [];
-
+let ruta =  'raiz'; 
 
 $(function(){
      //Inicializá el tablero
-     let ruta =  'raiz'; 
+     
      $('#ruta').attr('value',ruta)
      $('#rutaID').text(ruta)
 
@@ -108,6 +108,7 @@ $(function(){
                 console.log(response)
                 $('#form-change-prop').trigger('reset');
                 $('#modalChangeProp').modal('toggle');
+                location.reload()
                 
                 
             })
@@ -132,9 +133,10 @@ $(function(){
             let perPropietario = $('#NumPropietario').val();
             let perGrupo = $('#NumGrupo').val();
             let perOtros = $('#NumOtros').val();
+            console.log(perPropietario, per)
             let nuevo_persimo = `${perPropietario}${perGrupo}${perOtros}`
 
-            console.log(nuevo_persimo)
+    
             if(parseInt(nuevo_persimo.length) === 3){
                 const postData = {
                     nuevo : nuevo_persimo,
@@ -206,9 +208,13 @@ $(function(){
 
     //volver
     $('#volver').click((e)=>{
-        ruta = $('#rutaID').text().split('/');
-        console.log(ruta)
-        if(ruta.length>1){
+        ruta = $('#rutaID').text();
+        if(ruta === 'raiz'){
+            $('#rutaID').text(`${ruta}`);
+            $('#ruta').attr('value',`${ruta}`);
+            reloadApp(ruta)  
+        }else{
+            ruta =  $('#rutaID').text().split("/")
             ruta.pop()
             ruta = ruta.join('/')
             console.log(ruta)
@@ -216,12 +222,8 @@ $(function(){
             $('#rutaID').text(`${ruta}`);
             $('#ruta').attr('value',`${ruta}`);
             reloadApp(ruta)
-        }else{
-            //localStorage.setItem('ruta', ruta);
-            $('#rutaID').text(`${ruta}`);
-            $('#ruta').attr('value',`${ruta}`);
-            reloadApp(ruta)    
         }
+       
     })
 
     //Agregar a la pila
