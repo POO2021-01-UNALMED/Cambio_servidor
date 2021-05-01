@@ -205,13 +205,22 @@ $(function(){
 
     //volver
     $('#volver').click((e)=>{
-        ruta = $('#rutaID').text(); 
-         ruta = ruta.slipt('/').pop().join('/');
-        //localStorage.setItem('ruta', ruta);
-        $('#rutaID').text(`${ruta}`);
-        $('#ruta').attr('value',`${ruta}`);
-        reloadApp(ruta)
-           
+        ruta = $('#rutaID').text().split('/');
+        console.log(ruta.length, ruta)
+        if(ruta.length>1){
+            ruta = ruta.pop().join('/');
+            //localStorage.setItem('ruta', ruta);
+            $('#rutaID').text(`${ruta}`);
+            $('#ruta').attr('value',`${ruta}`);
+            reloadApp(ruta)
+        }else{
+            //localStorage.setItem('ruta', ruta);
+            $('#rutaID').text(`${ruta}`);
+            $('#ruta').attr('value',`${ruta}`);
+            reloadApp(ruta)
+               
+        }
+       
 
     })
 
